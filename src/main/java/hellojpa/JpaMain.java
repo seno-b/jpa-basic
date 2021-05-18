@@ -16,9 +16,6 @@ public class JpaMain {
 
         try{
 
-            Member findMember = em.find(Member.class, 2L);
-            findMember.setName("etstset");
-
             tx.commit();
         }catch(Exception e){
             tx.rollback();
