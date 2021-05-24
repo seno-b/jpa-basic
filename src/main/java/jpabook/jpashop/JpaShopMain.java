@@ -1,35 +1,24 @@
-package hellojpa;
+package jpabook.jpashop;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-public class JpaMain {
-
+public class JpaShopMain {
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpashop");
         EntityManager em = emf.createEntityManager();
 
         EntityTransaction tx = em.getTransaction();
-        tx.begin();
-
-        try{
-
-            Member m = new Member("A");
-            em.persist(m);
-
-            Member m1 = new Member("B");
-            em.persist(m1);
-
-            Member m2 = new Member("C");
-            em.persist(m2);
+        try {
+            tx.begin();
 
             tx.commit();
-        }catch(Exception e){
+        }catch (Exception e){
             tx.rollback();
             e.printStackTrace();
-        }finally{
+        }finally {
             em.close();
             emf.close();
         }
