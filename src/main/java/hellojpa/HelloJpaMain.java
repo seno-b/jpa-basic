@@ -22,23 +22,21 @@ public class HelloJpaMain {
             team.setName("TeamA");
             em.persist(team);
 
-            Team teamB = new Team();
-            team.setName("TeamB");
-            em.persist(teamB);
+            Member m = new Member();
+            m.setUsername("user1");
+            m.changeTeam(team);
+            em.persist(m);
 
-            Member member = new Member();
-            member.setUsername("newTeamMember");
-            member.setTeam(team);
-            em.persist(member);
+//            team.getMembers().add(m);
+//            team.getMembers().add(m);
+//            em.flush();
+//            em.clear();
 
-            em.flush();
-            em.clear();
-            Member findMember = em.find(Member.class, member.getId());
+            Team findTeam = em.find(Team.class, team.getId());
+            List<Member> members = findTeam.getMembers();
 
-            List<Member> members = findMember.getTeam().getMembers();
-
-            for(Member m : members){
-                System.out.println(m.getUsername());
+            for(Member member : members){
+                System.out.println("member.toString() = " + member.toString());
             }
 
             tx.commit();
