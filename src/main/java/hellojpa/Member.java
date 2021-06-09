@@ -1,7 +1,8 @@
 package hellojpa;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Member {
@@ -13,11 +14,17 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-//    @Column(name = "TEAM_ID")
-//    private Long teamId;
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private Team team;
+
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
+
+    @ManyToMany
+    @JoinTable(name = "MEMBER_PRODUCT")
+    private List<Product> products = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -42,5 +49,13 @@ public class Member {
     public void changeTeam(Team team) {
         this.team = team;
         team.getMembers().add(this);
+    }
+
+    public Locker getLocker() {
+        return locker;
+    }
+
+    public void setLocker(Locker locker) {
+        this.locker = locker;
     }
 }
