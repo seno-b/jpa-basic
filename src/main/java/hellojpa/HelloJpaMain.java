@@ -1,11 +1,10 @@
 package hellojpa;
 
-import com.sun.xml.internal.bind.v2.model.impl.ModelBuilderI;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 
 public class HelloJpaMain {
 
@@ -18,19 +17,16 @@ public class HelloJpaMain {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            Movie movie = new Movie();
-            movie.setActor("bbbb");
-            movie.setDirector("준호퐁");
-            movie.setName("괴물");
-            movie.setPrice(10000);
 
-            em.persist(movie);
+            Member member = new Member();
+            member.setUsername("방시노");
+            member.setCreatedBy("sino");
+            member.setCreatedDate(LocalDateTime.now());
+
+            em.persist(member);
 
             em.flush();
             em.clear();
-
-            Movie findMove = em.find(Movie.class, movie.getId());
-            System.out.println("findMove = " + findMove);
 
             tx.commit();
         }catch (Exception e){
