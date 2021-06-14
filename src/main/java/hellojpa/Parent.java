@@ -1,18 +1,24 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@DiscriminatorColumn
-public abstract class Item {
+public class Parent {
 
     @Id @GeneratedValue
     private Long id;
 
     private String name;
 
-    private int price;
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Child> childs = new ArrayList<>();
+
+    public void addChild(Child child){
+        childs.add(child);
+        child.setParent(this);
+    }
 
     public Long getId() {
         return id;
@@ -28,13 +34,5 @@ public abstract class Item {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 }

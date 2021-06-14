@@ -1,5 +1,6 @@
 package jpabook.jpashop;
 
+import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderItem;
 
@@ -17,8 +18,19 @@ public class JpaShopMain {
         try {
             tx.begin();
 
+            Member member = new Member();
+            member.setName("방신호");
+
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
             Order order = new Order();
-            order.addOrderItem(new OrderItem());
+            order.setMember(member);
+
+            em.persist(order);
+
 
             tx.commit();
         }catch (Exception e){

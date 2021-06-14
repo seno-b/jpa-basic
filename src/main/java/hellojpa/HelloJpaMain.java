@@ -1,13 +1,9 @@
 package hellojpa;
 
-import org.hibernate.Hibernate;
-import org.hibernate.jpa.internal.PersistenceUnitUtilImpl;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.time.LocalDateTime;
 
 public class HelloJpaMain {
 
@@ -21,26 +17,16 @@ public class HelloJpaMain {
         try {
             tx.begin();
 
-            Team team = new Team();
-            team.setName("TeamA");
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-            em.persist(team);
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
 
-            Member member = new Member();
-            member.setUsername("방시노");
-            member.setCreatedBy("sino");
-            member.setCreatedDate(LocalDateTime.now());
-            member.setTeam(team);
+            em.persist(parent);
 
-            em.persist(member);
-
-            em.flush();
-            em.clear();
-
-
-            Member findMember = em.getReference(Member.class, member.getId());
-            System.out.println(emf.getPersistenceUnitUtil().isLoaded(findMember));
-            printMemberAndTeam(findMember);
+            em.remove(parent);
 
             tx.commit();
         }catch (Exception e){
@@ -52,19 +38,4 @@ public class HelloJpaMain {
         }
     }
 
-    private static void printMemberAndTeam(Member findMember) {
-
-        System.out.println(findMember.getClass());
-        Hibernate.initialize(findMember);
-
-        System.out.println(findMember.getClass());
-        if(Member.class == findMember.getClass())
-            System.out.println("==");
-        if(Member.class.isInstance(findMember))
-            System.out.println("isInstance");
-        if(findMember instanceof Member)
-            System.out.println("instanceof");
-
-
-    }
 }

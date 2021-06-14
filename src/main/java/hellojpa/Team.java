@@ -1,11 +1,13 @@
 package hellojpa;
 
+import jpabook.jpashop.domain.BaseEntity;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Team extends BaseEntity{
+public class Team {
 
     @Id @GeneratedValue
     @Column(name = "TEAM_ID")
