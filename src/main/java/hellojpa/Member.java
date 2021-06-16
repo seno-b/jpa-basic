@@ -1,7 +1,5 @@
 package hellojpa;
 
-import jpabook.jpashop.domain.BaseEntity;
-
 import javax.persistence.*;
 
 @Entity
@@ -14,38 +12,18 @@ public class Member{
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
+    @Embedded
+    private Period workPeriod;
 
-    public Long getId() {
-        return id;
-    }
+    @Embedded
+    private Address homeAddress;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void changeTeam(Team team) {
-        this.team = team;
-        team.getMembers().add(this);
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "city", column = @Column(name = "work_city")),
+            @AttributeOverride(name = "street", column = @Column(name = "work_street")),
+            @AttributeOverride(name = "zipcode", column = @Column(name = "work_zipcode"))
+        })
+    private Address workAddress;
 
 }
