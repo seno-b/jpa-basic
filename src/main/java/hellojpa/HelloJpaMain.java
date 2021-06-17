@@ -15,6 +15,13 @@ public class HelloJpaMain {
         try {
             tx.begin();
 
+            Address address = new Address("city", "street", "zipCode");
+            Member member1 = new Member();
+            member1.setUsername("UserA");
+            member1.setHomeAddress(address);
+
+            em.persist(member1);
+
             tx.commit();
         }catch (Exception e){
             tx.rollback();
