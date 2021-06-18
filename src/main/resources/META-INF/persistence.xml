@@ -38,6 +38,7 @@
         <class>jpabook.jpashop.domain.Book</class>
         <class>jpabook.jpashop.domain.Category</class>
         <class>jpabook.jpashop.domain.Delivery</class>
+        <class>jpabook.jpashop.domain.Address</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
@@ -52,7 +53,7 @@
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
         </properties>
     </persistence-unit>
 </persistence>

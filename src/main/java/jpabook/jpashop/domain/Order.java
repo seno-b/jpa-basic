@@ -1,6 +1,5 @@
 package jpabook.jpashop.domain;
 
-import com.sun.xml.internal.rngom.parse.host.Base;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
