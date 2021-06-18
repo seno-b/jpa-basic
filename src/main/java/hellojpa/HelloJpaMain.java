@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class HelloJpaMain {
 
@@ -14,24 +15,16 @@ public class HelloJpaMain {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
+            List<Member> resultList = em.createQuery(
+                    "select m from Member m where m.username like '%kim%'"
+                    , Member.class
+            ).getResultList();
 
-            Address address = new Address("city", "street", "zipCode");
+            for (Member member : resultList) {
+                System.out.println("member = " + member.getUsername());
+            }
 
-            Member member1 = new Member();
-            member1.setUsername("UserA");
-            member1.setHomeAddress(address);
-            em.persist(member1);
-
-            member1.getFavoriteFoods().add("육회");
-            member1.getFavoriteFoods().add("연어");
-            member1.getFavoriteFoods().add("하이볼");
-            member1.getFavoriteFoods().add("치킨");
-
-            member1.getAddressHistory().add(new AddressEntity("old1", "street", "zipCode"));
-            member1.getAddressHistory().add(new AddressEntity("cirt2", "street", "zipCode"));
-
-            em.flush();
-            em.clear();
+            em.createNativeQuery("select * from MEMBER", Member.class).getResultList();
 
             tx.commit();
         }catch (Exception e){
