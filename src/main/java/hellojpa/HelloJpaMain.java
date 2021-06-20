@@ -26,6 +26,12 @@ public class HelloJpaMain {
 
             em.createNativeQuery("select * from MEMBER", Member.class).getResultList();
 
+            List<Member> resultList1 = em.createQuery("select m from Member m where m.username = 'kim'", Member.class).getResultList();
+
+            for (Member member : resultList1) {
+                System.out.println("member = " + member);
+            }
+
             tx.commit();
         }catch (Exception e){
             tx.rollback();
