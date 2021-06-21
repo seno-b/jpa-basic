@@ -19,34 +19,25 @@ public class JpqlMain {
         try {
             tx.begin();
 
-            Member m = new Member();
-            m.setUsername("Member1dd");
-            m.setAge(30);
 
-            Member m2 = new Member();
-            m2.setUsername("Member2");
-            m2.setAge(30);
+            for (int i = 1; i< 100 ; i++){
 
-            em.persist(m);
-            em.persist(m2);
+                Member m = new Member();
+                m.setUsername("Member" + i);
+                m.setAge(i);
+                em.persist(m);
 
-            Member findMember = em.createQuery("select m from Member m where username = :username", Member.class)
-                    .setParameter("username", "Member1dd")
-                    .getSingleResult();
+            }
 
-            System.out.println("findMember = " + findMember.getId());
-
-            findMember.setAge(500);
-
-            em.flush();
-            em.clear();
-
-            List<MemberDTO> resultList = em.createQuery("select new jpql.DTO.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
+            List<Member> result = em.createQuery("select m from Member m", Member.class)
+                    .setFirstResult(10)
+                    .setMaxResults(10)
                     .getResultList();
 
-            for (MemberDTO o : resultList) {
-                System.out.println("o = " + o.getUsername());
+            for (Member member : result) {
+                System.out.println("member = " + member);
             }
+
 
             tx.commit();
         }catch (Exception e){
