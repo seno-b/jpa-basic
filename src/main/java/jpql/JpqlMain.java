@@ -2,6 +2,7 @@ package jpql;
 
 import jpql.DTO.MemberDTO;
 import jpql.domain.Member;
+import jpql.domain.Team;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,25 +20,24 @@ public class JpqlMain {
         try {
             tx.begin();
 
+            Team team = new Team();
+            team.setName("join Test Team");
+            em.persist(team);
 
-            for (int i = 1; i< 100 ; i++){
+            Member member = new Member();
+            member.setUsername("join Test");
+            member.setTeam(team);
 
-                Member m = new Member();
-                m.setUsername("Member" + i);
-                m.setAge(i);
-                em.persist(m);
+            em.persist(member);
+
+
+            List<Member> resultList = em.createQuery("select m from Member m left join m.team t", Member.class).getResultList();
+
+            for (Member member1 : resultList) {
+                System.out.println("member1 = " + member1);
+                System.out.println("team = " + member1.getTeam().toString());
 
             }
-
-            List<Member> result = em.createQuery("select m from Member m", Member.class)
-                    .setFirstResult(10)
-                    .setMaxResults(10)
-                    .getResultList();
-
-            for (Member member : result) {
-                System.out.println("member = " + member);
-            }
-
 
             tx.commit();
         }catch (Exception e){
