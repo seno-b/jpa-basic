@@ -2,12 +2,14 @@ package jpql;
 
 import jpql.DTO.MemberDTO;
 import jpql.domain.Member;
+import jpql.domain.MemberType;
 import jpql.domain.Team;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.Arrays;
 import java.util.List;
 
 public class JpqlMain {
@@ -27,25 +29,18 @@ public class JpqlMain {
             Member member = new Member();
             member.setUsername("join Test");
             member.setAge(15);
+            member.setType(MemberType.USER);
             member.setTeam(team);
 
-            Member member2 = new Member();
-            member2.setUsername("join Test");
-            member2.setAge(20);
-
             em.persist(member);
-            em.persist(member2);
 
+            List<Object[]> result = em.createQuery("select 'HELLO', m.type, TRUE from Member m where m.type = :memberType", Object[].class)
+                    .setParameter("memberType", MemberType.USER)
+                    .getResultList();
 
-            List<Member> resultList = em.createQuery("select m from Member m where m.age < (select MAX(m1.age) from Member m1)", Member.class).getResultList();
-
-            for (Member member1 : resultList) {
-                System.out.println("member1 = " + member1);
-                System.out.println("team = " + member1.getTeam().toString());
-
+            for (Object[] o : result) {
+                System.out.println("o = " + Arrays.toString(o));
             }
-
-            member2.changeTeam(team);
 
             tx.commit();
         }catch (Exception e){
