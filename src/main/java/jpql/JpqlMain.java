@@ -31,17 +31,17 @@ public class JpqlMain {
 
             em.persist(member);
 
-            String query = "" +
-                    "select " +
-                        "case when m.age <= 10 then '학생요금' " +
-                        "     when m.age >= 60 then '경로요금' " +
-                        "     else '일반요금' "  +
-                        "end "  +
-                    "from Member m ";
-            List<String> resultList = em.createQuery(query, String.class).getResultList();
+            List<Integer> resultList = em.createQuery("select locate('abcdefg', m.username) from Member m ", Integer.class).getResultList();
 
-            for (String arg : resultList) {
-                System.out.println("arg = " + arg);
+            for (int s : resultList) {
+                System.out.println("s = " + s);
+            }
+
+            List<String> resultList1 = em.createQuery("select group_concat(m.username) from Member m", String.class)
+                    .getResultList();
+
+            for (String s : resultList1) {
+                System.out.println("s = " + s);
             }
             tx.commit();
         }catch (Exception e){
