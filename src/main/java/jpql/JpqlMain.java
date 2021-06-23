@@ -31,17 +31,23 @@ public class JpqlMain {
 
             em.persist(member);
 
-            List<Integer> resultList = em.createQuery("select locate('abcdefg', m.username) from Member m ", Integer.class).getResultList();
-
-            for (int s : resultList) {
-                System.out.println("s = " + s);
-            }
-
-            List<String> resultList1 = em.createQuery("select group_concat(m.username) from Member m", String.class)
+            List<Team> resultList = em.createQuery("select m.team from Member m", Team.class)
                     .getResultList();
 
-            for (String s : resultList1) {
-                System.out.println("s = " + s);
+            for (Team team1 : resultList) {
+                System.out.println("team1 = " + team1);
+            }
+
+
+            Integer singleResult = em.createQuery("select t.members.size from Team t ", Integer.class).getSingleResult();
+
+            System.out.println("singleResult = " + singleResult);
+
+            List<Member> resultList1 = em.createQuery("select m from Team t join t.members m ", Member.class).getResultList();
+
+
+            for (Member member1 : resultList1) {
+                System.out.println("member1 = " + member1);
             }
             tx.commit();
         }catch (Exception e){
