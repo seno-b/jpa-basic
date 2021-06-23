@@ -5,10 +5,7 @@ import jpql.domain.Member;
 import jpql.domain.MemberType;
 import jpql.domain.Team;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,14 +31,18 @@ public class JpqlMain {
 
             em.persist(member);
 
-            List<Object[]> result = em.createQuery("select 'HELLO', m.type, TRUE from Member m where m.type = :memberType", Object[].class)
-                    .setParameter("memberType", MemberType.USER)
-                    .getResultList();
+            String query = "" +
+                    "select " +
+                        "case when m.age <= 10 then '학생요금' " +
+                        "     when m.age >= 60 then '경로요금' " +
+                        "     else '일반요금' "  +
+                        "end "  +
+                    "from Member m ";
+            List<String> resultList = em.createQuery(query, String.class).getResultList();
 
-            for (Object[] o : result) {
-                System.out.println("o = " + Arrays.toString(o));
+            for (String arg : resultList) {
+                System.out.println("arg = " + arg);
             }
-
             tx.commit();
         }catch (Exception e){
             tx.rollback();
