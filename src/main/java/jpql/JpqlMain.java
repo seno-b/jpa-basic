@@ -31,24 +31,17 @@ public class JpqlMain {
 
             em.persist(member);
 
-            List<Team> resultList = em.createQuery("select m.team from Member m", Team.class)
+
+            List<Member> resultList = em.createQuery("select m from Member m join fetch m.team", Member.class)
                     .getResultList();
 
-            for (Team team1 : resultList) {
-                System.out.println("team1 = " + team1);
-            }
 
+            for (Member member1 : resultList) {
 
-            Integer singleResult = em.createQuery("select t.members.size from Team t ", Integer.class).getSingleResult();
-
-            System.out.println("singleResult = " + singleResult);
-
-            List<Member> resultList1 = em.createQuery("select m from Team t join t.members m ", Member.class).getResultList();
-
-
-            for (Member member1 : resultList1) {
                 System.out.println("member1 = " + member1);
             }
+
+
             tx.commit();
         }catch (Exception e){
             tx.rollback();
