@@ -1,12 +1,10 @@
 package jpql;
 
-import jpql.DTO.MemberDTO;
 import jpql.domain.Member;
 import jpql.domain.MemberType;
 import jpql.domain.Team;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.List;
 
 public class JpqlMain {
@@ -20,27 +18,49 @@ public class JpqlMain {
             tx.begin();
 
             Team team = new Team();
-            team.setName("join Test Team");
+            team.setName("Team1");
             em.persist(team);
 
+            Team team2 = new Team();
+            team2.setName("Team2");
+            em.persist(team2);
+
+            Team team3 = new Team();
+            team3.setName("Team3");
+            em.persist(team3);
+
             Member member = new Member();
-            member.setUsername("join Test");
+            member.setUsername("Member1");
             member.setAge(15);
             member.setType(MemberType.USER);
             member.setTeam(team);
 
+            Member member2 = new Member();
+            member2.setUsername("Member2");
+            member2.setAge(15);
+            member2.setType(MemberType.USER);
+            member2.setTeam(team);
+
+            Member member3 = new Member();
+            member3.setUsername("Member3");
+            member3.setAge(15);
+            member3.setType(MemberType.USER);
+            member3.setTeam(team2);
+
             em.persist(member);
+            em.persist(member2);
+            em.persist(member3);
 
 
-            List<Member> resultList = em.createQuery("select m from Member m join fetch m.team", Member.class)
+            em.flush();
+            em.clear();
+            List<Team> resultList = em.createQuery("select t from Team t join fetch t.members", Team.class)
                     .getResultList();
 
 
-            for (Member member1 : resultList) {
-
-                System.out.println("member1 = " + member1);
+            for (Team team1 : resultList) {
+                System.out.println("team = " + team1.getName() + ", members = " + team1.getMembers().toString());
             }
-
 
             tx.commit();
         }catch (Exception e){
