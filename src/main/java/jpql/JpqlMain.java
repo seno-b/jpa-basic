@@ -54,7 +54,7 @@ public class JpqlMain {
 
             em.flush();
             em.clear();
-            List<Team> resultList = em.createQuery("select t from Team t join fetch t.members", Team.class)
+            List<Team> resultList = em.createQuery("select distinct t from Team t join fetch t.members", Team.class)
                     .getResultList();
 
 
