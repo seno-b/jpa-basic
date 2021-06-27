@@ -70,6 +70,11 @@ public class JpqlMain {
                 System.out.println("member1 = " + member1);
             }
 
+            int i = em.createQuery("update Member m set age = 20")
+                    .executeUpdate();
+
+            System.out.println("i = " + i);
+
             tx.commit();
         }catch (Exception e){
             tx.rollback();
