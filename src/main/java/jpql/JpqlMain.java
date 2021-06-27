@@ -62,6 +62,14 @@ public class JpqlMain {
 
             System.out.println("resultList = " + resultList);
 
+            List<Member> resultList1 = em.createNamedQuery("Member.findByUsername", Member.class)
+                    .setParameter("username", member.getUsername())
+                    .getResultList();
+
+            for (Member member1 : resultList1) {
+                System.out.println("member1 = " + member1);
+            }
+
             tx.commit();
         }catch (Exception e){
             tx.rollback();
