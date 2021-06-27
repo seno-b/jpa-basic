@@ -51,16 +51,16 @@ public class JpqlMain {
             em.persist(member2);
             em.persist(member3);
 
-
             em.flush();
             em.clear();
-            List<Team> resultList = em.createQuery("select distinct t from Team t join fetch t.members", Team.class)
+
+            final String query = "select m from Member m where m = :member";
+
+            List<Member> resultList = em.createQuery(query, Member.class)
+                    .setParameter("member", member)
                     .getResultList();
 
-
-            for (Team team1 : resultList) {
-                System.out.println("team = " + team1.getName() + ", members = " + team1.getMembers().toString());
-            }
+            System.out.println("resultList = " + resultList);
 
             tx.commit();
         }catch (Exception e){
