@@ -22,25 +22,14 @@ public class JpaMain {
     member.setAge(12);
 
     em.persist(member);
-    em.flush();
-    em.clear();
 
-    // 영속 엔티티 조회
-    Member findMember = em.find(Member.class, 1l);
+    List<Member> select_m_from_member_m = em.createQuery("select m from Member m", Member.class)
+        .getResultList();
 
-    // 영속 엔티티 데이터 수정
-    findMember.setAge(10);
+    System.out.println("select_m_from_member_m = " + select_m_from_member_m);
 
-    // dirty checking (변경감지)
-    // jpa는 엔티티를 영속성 컨텍스트에 보관할 때, 최초 상태를 복사해서 저장해두는데 이것을 '스냅샷'이라 한다.
-    // 그리고 플러시 시점에 스냅샷과 엔티티를 비교해서 변경된 엔티티를 찾는다.
-    // 엔티티의 모든 필드를 업데이트하는 장단점.
-    // 단점 : 전송량이 증가한다.
-    // 장점 : 모든 필드를 사용하면 수정 쿼리가 항상 같다, 따라서 애플리케이션 로딩 시점에 수정 쿼리를 미리 생성해두고 재사용할 수 있다.
-    //       데이터베이스에 동일한 쿼리를 보내면 데이터베이스는 이전에 한 번 파싱된 쿼리를 재사용할 수 있다.
-
-    // 수정 하고 비슷하게 동작, 쓰기지연 sql 저장소에 delete query 가 생성 저장 되고 이후 commit 시 flush 와 함께 삭제된다.
-    em.remove(findMember);
+    // flush 하지 않는다.
+    Member member1 = em.find(Member.class, 2l);
 
     tx.commit();
     em.close();
