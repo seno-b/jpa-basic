@@ -23,13 +23,10 @@ public class JpaMain {
 
     // 영속 상태, 1차 캐시 저장, 쓰기지연 쿼리 생성
     em.persist(member);
-    em.flush();
-    em.clear();
-
-    // 비영속 상태, 더 이상 dirty checking 되지 않음.
-    member.setName("change name");
 
     tx.commit();
+
+    // 영속성 컨텍스트가 제거 된다. 더 이상 영속성이 유지되지 않는다.
     em.close();
     emf.close();
   }
