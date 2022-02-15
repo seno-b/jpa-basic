@@ -39,6 +39,9 @@ public class JpaMain {
     // 장점 : 모든 필드를 사용하면 수정 쿼리가 항상 같다, 따라서 애플리케이션 로딩 시점에 수정 쿼리를 미리 생성해두고 재사용할 수 있다.
     //       데이터베이스에 동일한 쿼리를 보내면 데이터베이스는 이전에 한 번 파싱된 쿼리를 재사용할 수 있다.
 
+    // 수정 하고 비슷하게 동작, 쓰기지연 sql 저장소에 delete query 가 생성 저장 되고 이후 commit 시 flush 와 함께 삭제된다.
+    em.remove(findMember);
+
     tx.commit();
     em.close();
     emf.close();
