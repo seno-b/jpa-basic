@@ -1,50 +1,35 @@
 package jpabook.start;
 
+import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@DynamicUpdate // dynamicUpdate annotation을 이용하면 변경된 필드만 업데이트 해줄 수 있다.
 public class Member {
 
   @Id
-  private long id;
+  private Long id;
 
   private String name;
 
   private int age;
 
-  public long getId() {
-    return id;
-  }
+  @Enumerated(EnumType.STRING)
+  private Role role;
 
-  public void setId(long id) {
-    this.id = id;
-  }
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date createdDate;
 
-  public String getName() {
-    return name;
-  }
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date lastModifiedDate;
 
-  public void setName(String name) {
-    this.name = name;
-  }
+  @Lob
+  private String description;
 
-  public int getAge() {
-    return age;
-  }
-
-  public void setAge(int age) {
-    this.age = age;
-  }
-
-  @Override
-  public String toString() {
-    return "Member{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", age=" + age +
-        '}';
-  }
 }
