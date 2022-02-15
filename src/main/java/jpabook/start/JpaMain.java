@@ -8,7 +8,6 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 public class JpaMain {
-
   public static void main(String[] args) {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpabook");
     EntityManager em = emf.createEntityManager();
