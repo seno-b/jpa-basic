@@ -21,15 +21,11 @@ public class JpaMain {
     member.setName("신규생성1");
     member.setAge(12);
 
+    // 영속 상태, 1차 캐시 저장, 쓰기지연 쿼리 생성
     em.persist(member);
 
-    List<Member> select_m_from_member_m = em.createQuery("select m from Member m", Member.class)
-        .getResultList();
-
-    System.out.println("select_m_from_member_m = " + select_m_from_member_m);
-
-    // flush 하지 않는다.
-    Member member1 = em.find(Member.class, 2l);
+    // 비영속 상태, 1차 캐시 제거, 쓰기지연 쿼리 제거
+    em.detach(member);
 
     tx.commit();
     em.close();
