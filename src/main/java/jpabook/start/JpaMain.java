@@ -22,18 +22,15 @@ public class JpaMain {
     member.setAge(555);
 
     em.persist(member);
+    em.flush();
+    em.clear();
 
-    // update
-    member.setAge(20);
+    Member findMember1 = em.find(Member.class, 1l);
+    // 1차 캐시에서 바로 꺼내기 때문에 sql select query 한번만 실행
+    Member findMember2 = em.find(Member.class, 1l);
 
-    Member findMember = em.find(Member.class, 1l);
-    System.out.println("findMember = " + findMember);
-
-    TypedQuery<Member> select_m_from_member_m = em.createQuery("select m from Member m",
-        Member.class);
-
-    List<Member> resultList = select_m_from_member_m.getResultList();
-    System.out.println("resultList = " + resultList);
+    // 같은 트랜잭션 안에서 동일성 보장
+    System.out.println(findMember1 == findMember2);
 
     tx.commit();
     em.close();
