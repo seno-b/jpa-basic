@@ -1,11 +1,11 @@
 package jpabook.start;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
+@DynamicUpdate // dynamicUpdate annotation을 이용하면 변경된 필드만 업데이트 해줄 수 있다.
 public class Member {
 
   @Id

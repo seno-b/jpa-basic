@@ -21,17 +21,24 @@ public class JpaMain {
     member.setName("신규생성1");
     member.setAge(12);
 
-    Member member2 = new Member();
-    member.setId(2l);
-    member.setName("신규생성2");
-    member.setAge(22);
-
     em.persist(member);
-    em.persist(member2);
+    em.flush();
+    em.clear();
 
-    // 엔티티 매니저는 트랜잭션을 커밋하기 직전까지 데이터베이스에 엔티티를 저장하지 않고 내부 쿼리 저장소에 INSERT QUERY를 차곡차곡 저장해둔다
-    // 그리고 트랜잭션을 커밋할 때 모아둔 쿼리를 데이터베이스에 보내는데 이것을 트랜잭션을 지원하는 쓰기지연(transactional write-behind) 라고 한다.
-    // 커밋하는 순간 insert query 보낸다.
+    // 영속 엔티티 조회
+    Member findMember = em.find(Member.class, 1l);
+
+    // 영속 엔티티 데이터 수정
+    findMember.setAge(10);
+
+    // dirty checking (변경감지)
+    // jpa는 엔티티를 영속성 컨텍스트에 보관할 때, 최초 상태를 복사해서 저장해두는데 이것을 '스냅샷'이라 한다.
+    // 그리고 플러시 시점에 스냅샷과 엔티티를 비교해서 변경된 엔티티를 찾는다.
+    // 엔티티의 모든 필드를 업데이트하는 장단점.
+    // 단점 : 전송량이 증가한다.
+    // 장점 : 모든 필드를 사용하면 수정 쿼리가 항상 같다, 따라서 애플리케이션 로딩 시점에 수정 쿼리를 미리 생성해두고 재사용할 수 있다.
+    //       데이터베이스에 동일한 쿼리를 보내면 데이터베이스는 이전에 한 번 파싱된 쿼리를 재사용할 수 있다.
+
     tx.commit();
     em.close();
     emf.close();
