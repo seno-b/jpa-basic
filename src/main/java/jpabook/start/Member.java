@@ -10,17 +10,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "age"}))
+@TableGenerator(
+    name = "MEMBER_SEQ_GENERATOR",
+    table = "MY_SEQUENCE",
+    pkColumnValue = "MEMBER_SEQ", allocationSize = 1
+)
 public class Member {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE,
-      generator = "MEMBER_SEQ_GENERATOR")
+  @GeneratedValue(strategy = GenerationType.TABLE,
+  generator = "MEMBER_SEQ_GENERATOR")
   private Long id;
 
   @Column(nullable = false, length = 10)
