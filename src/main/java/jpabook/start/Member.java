@@ -14,6 +14,7 @@ import javax.persistence.Lob;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.jboss.logging.LogMessage;
 
 @Entity
 public class Member {
@@ -48,6 +49,10 @@ public class Member {
 
   @Lob
   private String description;
+
+  // byte 는 blob 으로 생성
+  @Lob
+  private Byte eByte;
 
   public Long getId() {
     return id;
