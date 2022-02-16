@@ -19,7 +19,8 @@ import javax.persistence.UniqueConstraint;
 public class Member {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE,
+      generator = "MEMBER_SEQ_GENERATOR")
   private Long id;
 
   @Column(nullable = false, length = 10)
