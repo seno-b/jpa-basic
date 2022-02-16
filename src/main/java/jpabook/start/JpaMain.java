@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 public class JpaMain {
+
   public static void main(String[] args) {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpabook");
     EntityManager em = emf.createEntityManager();
@@ -17,6 +18,7 @@ public class JpaMain {
 
     Member member = new Member();
     member.setId(1l);
+  
     member.setName("신규생성1");
     member.setAge(12);
 
