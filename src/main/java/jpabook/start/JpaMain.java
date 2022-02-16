@@ -18,24 +18,16 @@ public class JpaMain {
 
     Member member = new Member();
     member.setId(1l);
-    member.setName("어쩔티비");
-    member.setAge(555);
+  
+    member.setName("신규생성1");
+    member.setAge(12);
 
+    // 영속 상태, 1차 캐시 저장, 쓰기지연 쿼리 생성
     em.persist(member);
 
-    // update
-    member.setAge(20);
-
-    Member findMember = em.find(Member.class, 1l);
-    System.out.println("findMember = " + findMember);
-
-    TypedQuery<Member> select_m_from_member_m = em.createQuery("select m from Member m",
-        Member.class);
-
-    List<Member> resultList = select_m_from_member_m.getResultList();
-    System.out.println("resultList = " + resultList);
-
     tx.commit();
+
+    // 영속성 컨텍스트가 제거 된다. 더 이상 영속성이 유지되지 않는다.
     em.close();
     emf.close();
   }
