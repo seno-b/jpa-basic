@@ -14,13 +14,11 @@ public class JpaMain {
     tx.begin();
 
     Member member = new Member();
-    member.setId(1l);
     member.setName("신규생성1");
     member.setAge(12);
 
     Member member2 = new Member();
-    member2.setId(2l);
-    member2.setName("신규생성1");
+    member2.setName("신규생성2");
     member2.setAge(12);
 
     em.persist(member);
