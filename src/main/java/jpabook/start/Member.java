@@ -7,16 +7,19 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.hibernate.annotations.DynamicUpdate;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "age"}))
 public class Member {
 
   @Id
   private Long id;
 
+  @Column(nullable = false, length = 10)
   private String name;
 
   private int age;
