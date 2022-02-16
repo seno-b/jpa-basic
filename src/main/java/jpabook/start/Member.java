@@ -1,5 +1,7 @@
 package jpabook.start;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +18,8 @@ import javax.persistence.TemporalType;
 @Entity
 public class Member {
 
-  @Id @GeneratedValue
+  @Id
+  @GeneratedValue
   private Long id;
 
   @Column(nullable = false, length = 10)
@@ -33,6 +36,15 @@ public class Member {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "last_modified_date")
   private Date lastModifiedDate;
+
+  // LocalDate 와 LocalDateTime 은 @Column 만 붙여주니까 알아서 만들어줌
+  // ld date,
+  // ldt timestamp,
+  @Column
+  private LocalDate ld;
+
+  @Column
+  private LocalDateTime ldt;
 
   @Lob
   private String description;
