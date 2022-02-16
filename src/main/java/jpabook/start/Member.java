@@ -14,6 +14,7 @@ import javax.persistence.Lob;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import org.jboss.logging.LogMessage;
 
 @Entity
@@ -53,6 +54,10 @@ public class Member {
   // byte 는 blob 으로 생성
   @Lob
   private Byte eByte;
+
+  // Transient 매핑하지 않음.
+  @Transient
+  private String noMapping;
 
   public Long getId() {
     return id;
