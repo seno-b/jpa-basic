@@ -3,61 +3,31 @@ package jpabook.start;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
-import javax.persistence.Column;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.TableGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import org.jboss.logging.LogMessage;
 
 @Entity
 public class Member {
 
-  @Id
-  @GeneratedValue
+  @Id @GeneratedValue
   private Long id;
 
-  @Column(nullable = false, length = 10)
-  private String name;
+  @Transient
+  private String firstName;
+
+  @Transient
+  private String lastName;
 
   private int age;
 
-  @Enumerated(EnumType.STRING)
-  private Role role;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date createdDate;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "last_modified_date")
-  private Date lastModifiedDate;
-
-  // LocalDate 와 LocalDateTime 은 @Column 만 붙여주니까 알아서 만들어줌
-  // ld date,
-  // ldt timestamp,
-  @Column
-  private LocalDate ld;
-
-  @Column
-  private LocalDateTime ldt;
-
-  @Lob
-  private String description;
-
-  // byte 는 blob 으로 생성
-  @Lob
-  private Byte eByte;
-
-  // Transient 매핑하지 않음.
-  @Transient
-  private String noMapping;
+  @Access(AccessType.PROPERTY)
+  public String getFullName() {
+    return firstName + lastName;
+  }
 
   public Long getId() {
     return id;
@@ -67,12 +37,20 @@ public class Member {
     this.id = id;
   }
 
-  public String getName() {
-    return name;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 
   public int getAge() {
@@ -83,35 +61,13 @@ public class Member {
     this.age = age;
   }
 
-  public Role getRole() {
-    return role;
-  }
-
-  public void setRole(Role role) {
-    this.role = role;
-  }
-
-  public Date getCreatedDate() {
-    return createdDate;
-  }
-
-  public void setCreatedDate(Date createdDate) {
-    this.createdDate = createdDate;
-  }
-
-  public Date getLastModifiedDate() {
-    return lastModifiedDate;
-  }
-
-  public void setLastModifiedDate(Date lastModifiedDate) {
-    this.lastModifiedDate = lastModifiedDate;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
+  @Override
+  public String toString() {
+    return "Member{" +
+        "id=" + id +
+        ", firstName='" + firstName + '\'' +
+        ", lastName='" + lastName + '\'' +
+        ", age=" + age +
+        '}';
   }
 }

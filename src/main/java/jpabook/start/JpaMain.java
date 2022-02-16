@@ -14,15 +14,21 @@ public class JpaMain {
     tx.begin();
 
     Member member = new Member();
-    member.setName("신규생성1");
-    member.setAge(12);
+    member.setFirstName("방");
+    member.setLastName("시노");
 
     Member member2 = new Member();
-    member2.setName("신규생성2");
-    member2.setAge(12);
+    member2.setFirstName("위");
+    member2.setLastName("하늘");
 
     em.persist(member);
     em.persist(member2);
+
+    em.flush();
+    em.clear();
+
+    Member member1 = em.find(Member.class, 1l);
+    System.out.println("member1 = " + member1);
 
     tx.commit();
 
